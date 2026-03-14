@@ -1,0 +1,9 @@
+# Environment variables (contains secrets)
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs are tracked but not secrets
+# logs/storage.log is intentionally committed

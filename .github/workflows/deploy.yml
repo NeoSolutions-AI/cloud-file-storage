@@ -26,8 +26,7 @@ jobs:
       - name: Create Container if not exists
         run: |
           az storage container create \
-            --account-name mitailive \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+            --connection-string "${{ secrets.AZURE_STORAGE_KEY }}" \
             --name files \
             --public-access blob
 
@@ -35,8 +34,7 @@ jobs:
         run: |
           echo "Deployed on $(date)" > deployment-test.txt
           az storage blob upload \
-            --account-name mitailive \
-            --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
+            --connection-string "${{ secrets.AZURE_STORAGE_KEY }}" \
             --container-name files \
             --file deployment-test.txt \
             --name deployment-test.txt \

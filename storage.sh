@@ -9,7 +9,7 @@ STORAGE_ACCOUNT="mitailive"
 CONTAINER_NAME="files"
 RESOURCE_GROUP="mitailive-rg"
 LOG_FILE="./logs/storage.log"
-ACCOUNT_KEY="qtysvr6vhqi4+nl0nsp6W+2RI4ooa+r4UhLs+8RCt2dtNT6gAynarVv7iav0Oymi+jzMeMzAxg+AStKsYCPg=="
+CONNECTION_STRING="DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=mitailive;AccountKey=qtysvr6vhqi4+nl0nsp6W+2RI4ooa+r4UhLs+8RCt2dtNT6gAynarVv7iav0Oymi+jzMeMzAxg+AStKsYCPg==;BlobEndpoint=https://mitailive.blob.core.windows.net/;FileEndpoint=https://mitailive.file.core.windows.net/;QueueEndpoint=https://mitailive.queue.core.windows.net/;TableEndpoint=https://mitailive.table.core.windows.net/"
 
 # ── Logging Function ─────────────────────────────────────────
 log() {
@@ -55,8 +55,7 @@ upload_file() {
     log "UPLOAD STARTED: $BLOB_NAME"
 
     az storage blob upload \
-        --account-name "$STORAGE_ACCOUNT" \
-        --account-key "$ACCOUNT_KEY" \
+        --connection-string "$CONNECTION_STRING" \
         --container-name "$CONTAINER_NAME" \
         --file "$FILE_PATH" \
         --name "$BLOB_NAME" \
@@ -88,8 +87,7 @@ download_file() {
     log "DOWNLOAD STARTED: $BLOB_NAME"
 
     az storage blob download \
-        --account-name "$STORAGE_ACCOUNT" \
-        --account-key "$ACCOUNT_KEY" \
+        --connection-string "$CONNECTION_STRING" \
         --container-name "$CONTAINER_NAME" \
         --name "$BLOB_NAME" \
         --file "$DEST_PATH"
@@ -110,8 +108,7 @@ list_files() {
     log "LIST: Fetching all blobs"
 
     az storage blob list \
-        --account-name "$STORAGE_ACCOUNT" \
-        --account-key "$ACCOUNT_KEY" \
+        --connection-string "$CONNECTION_STRING" \
         --container-name "$CONTAINER_NAME" \
         --output table
 
@@ -132,8 +129,7 @@ delete_file() {
     log "DELETE STARTED: $BLOB_NAME"
 
     az storage blob delete \
-        --account-name "$STORAGE_ACCOUNT" \
-        --account-key "$ACCOUNT_KEY" \
+        --connection-string "$CONNECTION_STRING" \
         --container-name "$CONTAINER_NAME" \
         --name "$BLOB_NAME"
 

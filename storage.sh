@@ -3,18 +3,30 @@
 # Cloud File Storage CLI — Azure Blob Storage
 # Author: Mitaire Oteri
 # Description: Upload, download, list, delete, manage files
+# Security: Credentials loaded from environment variables
 # ============================================================
 
 STORAGE_ACCOUNT="mitailive"
 CONTAINER_NAME="files"
 RESOURCE_GROUP="mitailive-rg"
 LOG_FILE="./logs/storage.log"
-CONNECTION_STRING="DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=mitailive;AccountKey=qtysvr6vhqi4+nl0nsp6W+2RI4ooa+r4UhLs+8RCt2dtNT6gAynarVv7iav0Oymi+jzMeMzAxg+AStKsYCPg==;BlobEndpoint=https://mitailive.blob.core.windows.net/;FileEndpoint=https://mitailive.file.core.windows.net/;QueueEndpoint=https://mitailive.queue.core.windows.net/;TableEndpoint=https://mitailive.table.core.windows.net/"
+
+# NOTE: Never hardcode credentials in scripts.
+# Set this environment variable before running:
+# export AZURE_CONNECTION_STRING="your-connection-string"
+CONNECTION_STRING="${AZURE_CONNECTION_STRING}"
 
 # ── Logging Function ─────────────────────────────────────────
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
+
+# ── Validate Connection String ───────────────────────────────
+if [ -z "$CONNECTION_STRING" ]; then
+    echo "❌ Error: AZURE_CONNECTION_STRING environment variable is not set."
+    echo "Run: export AZURE_CONNECTION_STRING='your-connection-string'"
+    exit 1
+fi
 
 # ── Help Menu ────────────────────────────────────────────────
 show_help() {

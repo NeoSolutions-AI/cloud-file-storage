@@ -2,14 +2,19 @@
 # ============================================================
 # Deployment Script — Azure Blob Storage Setup
 # Automates the entire cloud storage deployment
+# Security: Credentials loaded from environment variables
 # ============================================================
 
 STORAGE_ACCOUNT="mitailive"
 CONTAINER_NAME="files"
 RESOURCE_GROUP="mitailive-rg"
 LOCATION="eastus"
-ACCOUNT_KEY="qtysvr6vhqi4+nl0nsp6W+2RI4ooa+r4UhLs+8RCt2dtNT6gAynarVv7iav0Oymi+jzMeMzAxg+AStKsYCPg=="
 LOG_FILE="./logs/storage.log"
+
+# NOTE: Never hardcode credentials in scripts.
+# Set this environment variable before running:
+# export AZURE_CONNECTION_STRING="your-connection-string"
+CONNECTION_STRING="${AZURE_CONNECTION_STRING}"
 
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
@@ -78,8 +83,7 @@ log "DEPLOY: Public blob access enabled"
 echo ""
 echo "📁 Step 6: Creating container '$CONTAINER_NAME'..."
 az storage container create \
-    --account-name "$STORAGE_ACCOUNT" \
-    --account-key "$ACCOUNT_KEY" \
+    --connection-string "$CONNECTION_STRING" \
     --name "$CONTAINER_NAME" \
     --public-access blob
 echo "✅ Container created with public access"

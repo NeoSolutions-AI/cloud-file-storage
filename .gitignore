@@ -1,9 +1,19 @@
-# Environment variables (contains secrets)
+# Environment variables — NEVER commit these
 .env
+.env.local
+*.env
+
+# Contains Azure credentials — keep local only
+.azure/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Logs are tracked but not secrets
-# logs/storage.log is intentionally committed
+# Logs are tracked intentionally for demonstration
+# logs/storage.log — committed to show logging feature
+
+# Test files — optional
+testfile.txt
+downloaded.txt
+deployment-test.txt
